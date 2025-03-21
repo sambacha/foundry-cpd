@@ -37,9 +37,9 @@ export interface GasSnapshot {
         previous?: number;
         change?: number;
         changePercentage?: number;
-      }
-    }
-  }
+      };
+    };
+  };
 }
 
 /**

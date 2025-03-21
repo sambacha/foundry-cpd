@@ -57,16 +57,16 @@ jobs:
 
 ### Inputs
 
-| **Name**                   | **Required** | **Default**                           | **Description**                                                 | **Type** |
-| -------------------------- | ------------ | ------------------------------------- | --------------------------------------------------------------- | -------- |
-| `cache`                    | No           | `true`                                | Whether to enable caching for RPC responses and artifacts.       | bool     |
-| `version`                  | No           | `stable`                              | Version to install, e.g. `stable`, `rc`, `nightly` or `v0.3.0`. | string   |
-| `cache-key`                | No           | `${{ github.job }}-${{ github.sha }}` | The cache key to use for caching.                               | string   |
-| `cache-restore-keys`       | No           | `[${{ github.job }}-]`                | The cache keys to use for restoring the cache.                  | string[] |
-| `gas-snapshot`             | No           | `false`                               | Whether to enable gas snapshot tracking.                        | bool     |
-| `gas-snapshot-test-pattern`| No           | `""`                                  | Test pattern to use for gas snapshots.                          | string   |
-| `gas-snapshot-pr-comment`  | No           | `true`                                | Whether to post gas snapshot comparison as a PR comment.        | bool     |
-| `github-token`             | No           | `${{ github.token }}`                 | GitHub token to use for API operations.                         | string   |
+| **Name**                    | **Required** | **Default**                           | **Description**                                                 | **Type** |
+| --------------------------- | ------------ | ------------------------------------- | --------------------------------------------------------------- | -------- |
+| `cache`                     | No           | `true`                                | Whether to enable caching for RPC responses and artifacts.      | bool     |
+| `version`                   | No           | `stable`                              | Version to install, e.g. `stable`, `rc`, `nightly` or `v0.3.0`. | string   |
+| `cache-key`                 | No           | `${{ github.job }}-${{ github.sha }}` | The cache key to use for caching.                               | string   |
+| `cache-restore-keys`        | No           | `[${{ github.job }}-]`                | The cache keys to use for restoring the cache.                  | string[] |
+| `gas-snapshot`              | No           | `false`                               | Whether to enable gas snapshot tracking.                        | bool     |
+| `gas-snapshot-test-pattern` | No           | `""`                                  | Test pattern to use for gas snapshots.                          | string   |
+| `gas-snapshot-pr-comment`   | No           | `true`                                | Whether to post gas snapshot comparison as a PR comment.        | bool     |
+| `github-token`              | No           | `${{ github.token }}`                 | GitHub token to use for API operations.                         | string   |
 
 ### RPC Caching
 
@@ -149,6 +149,7 @@ This action now includes built-in gas snapshot tracking capabilities, allowing y
 5. Optionally post these reports as comments on pull requests
 
 This feature is particularly useful for:
+
 - Identifying gas regressions in your code
 - Optimizing contract gas usage
 - Ensuring gas efficiency across your codebase
@@ -170,7 +171,7 @@ You can also filter which tests are included in the gas snapshot by using the `g
   uses: foundry-rs/foundry-toolchain@v1
   with:
     gas-snapshot: true
-    gas-snapshot-test-pattern: "test_gas_*"
+    gas-snapshot-test-pattern: 'test_gas_*'
 ```
 
 When running on pull requests, the action can automatically post a comment with a gas comparison report. This is enabled by default when gas snapshot tracking is enabled, but you can disable it by setting `gas-snapshot-pr-comment` to `false`.

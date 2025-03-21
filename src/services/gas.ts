@@ -3,13 +3,13 @@ import * as path from 'path';
 import { execSync } from 'child_process';
 
 import { GasSnapshot } from '../types';
-import { 
-  CACHE_PATHS, 
-  GAS_SNAPSHOT_FILENAME, 
+import {
+  CACHE_PATHS,
+  GAS_SNAPSHOT_FILENAME,
   GAS_SNAPSHOT_HISTORY_FILENAME,
   GAS_SNAPSHOT_COMPARISON_THRESHOLD,
   ERROR_MESSAGES,
-  SUCCESS_MESSAGES
+  SUCCESS_MESSAGES,
 } from '../constants';
 import { State } from '../types/state';
 import { getGitHubContext, isPullRequest } from '../utils/github';
@@ -24,7 +24,7 @@ export function parseGasSnapshot(snapshotOutput: string): Record<string, number>
   try {
     const lines = snapshotOutput.split('\n');
     const result: Record<string, number> = {};
-    
+
     for (const line of lines) {
       // Match lines like "test_name() (gas: 12345)"
       const match = line.match(/^(.*?)\s+\(gas:\s+(\d+)\)/);
@@ -33,10 +33,12 @@ export function parseGasSnapshot(snapshotOutput: string): Record<string, number>
         result[testName.trim()] = parseInt(gasUsed, 10);
       }
     }
-    
+
     return result;
   } catch (error) {
-    core.warning(`${ERROR_MESSAGES.GAS_SNAPSHOT_PARSE_FAILED}: ${error instanceof Error ? error.message : String(error)}`);
+    core.warning(
+      `${ERROR_MESSAGES.GAS_SNAPSHOT_PARSE_FAILED}: ${error instanceof Error ? error.message : String(error)}`,
+    );
     return {};
   }
 }
@@ -50,10 +52,10 @@ export async function captureGasSnapshot(testPattern?: string): Promise<Record<s
   try {
     const command = `forge snapshot ${testPattern ? `--match-test "${testPattern}"` : ''}`;
     core.info(`Capturing gas snapshot with command: ${command}`);
-    
+
     const output = execSync(command, { encoding: 'utf8' });
     const snapshot = parseGasSnapshot(output);
-    
+
     core.info(`Captured gas snapshot with ${Object.keys(snapshot).length} test results`);
     return snapshot;
   } catch (error) {
@@ -69,14 +71,17 @@ export async function captureGasSnapshot(testPattern?: string): Promise<Record<s
  */
 export function createGasSnapshot(testResults: Record<string, number>): GasSnapshot {
   const { sha } = getGitHubContext();
-  
+
   return {
     timestamp: new Date().toISOString(),
     commitSha: sha,
-    testResults: Object.entries(testResults).reduce((acc, [testName, gasUsed]) => {
-      acc[testName] = { gasUsed };
-      return acc;
-    }, {} as GasSnapshot['testResults'])
+    testResults: Object.entries(testResults).reduce(
+      (acc, [testName, gasUsed]) => {
+        acc[testName] = { gasUsed };
+        return acc;
+      },
+      {} as GasSnapshot['testResults'],
+    ),
   };
 }
 
@@ -86,35 +91,32 @@ export function createGasSnapshot(testResults: Record<string, number>): GasSnaps
  * @param previousSnapshot The previous gas snapshot to compare against
  * @returns The current snapshot with comparison data added
  */
-export function compareGasSnapshots(
-  currentSnapshot: GasSnapshot,
-  previousSnapshot: GasSnapshot
-): GasSnapshot {
+export function compareGasSnapshots(currentSnapshot: GasSnapshot, previousSnapshot: GasSnapshot): GasSnapshot {
   // Create a new snapshot object to avoid modifying the original
   const result: GasSnapshot = {
     ...currentSnapshot,
-    testResults: { ...currentSnapshot.testResults }
+    testResults: { ...currentSnapshot.testResults },
   };
-  
+
   // Add comparison data for each test
   for (const [testName, current] of Object.entries(result.testResults)) {
     const previous = previousSnapshot.testResults[testName];
-    
+
     if (previous) {
       const change = current.gasUsed - previous.gasUsed;
       const changePercentage = (change / previous.gasUsed) * 100;
-      
+
       result.testResults[testName] = {
         ...current,
         comparison: {
           previous: previous.gasUsed,
           change,
-          changePercentage
-        }
+          changePercentage,
+        },
       };
     }
   }
-  
+
   return result;
 }
 
@@ -126,20 +128,22 @@ export function compareGasSnapshots(
  */
 export async function saveGasSnapshot(
   snapshot: GasSnapshot,
-  filePath: string = path.join(CACHE_PATHS.GAS_SNAPSHOTS, GAS_SNAPSHOT_FILENAME)
+  filePath: string = path.join(CACHE_PATHS.GAS_SNAPSHOTS, GAS_SNAPSHOT_FILENAME),
 ): Promise<boolean> {
   try {
     ensureDirectoryExists(path.dirname(filePath));
     const result = writeJsonFile(filePath, snapshot);
-    
+
     if (result) {
       core.info(`${SUCCESS_MESSAGES.GAS_SNAPSHOT_SAVE_SUCCESS}: ${filePath}`);
       core.saveState(State.GasSnapshotKey, filePath);
     }
-    
+
     return result;
   } catch (error) {
-    core.warning(`${ERROR_MESSAGES.GAS_SNAPSHOT_SAVE_FAILED}: ${error instanceof Error ? error.message : String(error)}`);
+    core.warning(
+      `${ERROR_MESSAGES.GAS_SNAPSHOT_SAVE_FAILED}: ${error instanceof Error ? error.message : String(error)}`,
+    );
     return false;
   }
 }
@@ -150,7 +154,7 @@ export async function saveGasSnapshot(
  * @returns The loaded gas snapshot or undefined if the file does not exist or is invalid
  */
 export function loadGasSnapshot(
-  filePath: string = path.join(CACHE_PATHS.GAS_SNAPSHOTS, GAS_SNAPSHOT_FILENAME)
+  filePath: string = path.join(CACHE_PATHS.GAS_SNAPSHOTS, GAS_SNAPSHOT_FILENAME),
 ): GasSnapshot | undefined {
   return readJsonFile<GasSnapshot>(filePath);
 }
@@ -163,27 +167,27 @@ export function loadGasSnapshot(
  */
 export async function addGasSnapshotToHistory(
   snapshot: GasSnapshot,
-  historyFilePath: string = path.join(CACHE_PATHS.GAS_SNAPSHOTS, GAS_SNAPSHOT_HISTORY_FILENAME)
+  historyFilePath: string = path.join(CACHE_PATHS.GAS_SNAPSHOTS, GAS_SNAPSHOT_HISTORY_FILENAME),
 ): Promise<boolean> {
   try {
     ensureDirectoryExists(path.dirname(historyFilePath));
-    
+
     // Load existing history or create a new one
     const history = readJsonFile<GasSnapshot[]>(historyFilePath) || [];
-    
+
     // Add the new snapshot to the history
     history.push(snapshot);
-    
+
     // Limit history size to 100 entries
     const limitedHistory = history.slice(-100);
-    
+
     // Save the updated history
     const result = writeJsonFile(historyFilePath, limitedHistory);
-    
+
     if (result) {
       core.info(`Added gas snapshot to history: ${historyFilePath}`);
     }
-    
+
     return result;
   } catch (error) {
     core.warning(`Failed to add gas snapshot to history: ${error instanceof Error ? error.message : String(error)}`);
@@ -199,70 +203,62 @@ export async function addGasSnapshotToHistory(
 export function generateGasReport(snapshot: GasSnapshot): string {
   const { testResults } = snapshot;
   const testNames = Object.keys(testResults);
-  
+
   if (testNames.length === 0) {
     return 'No gas snapshot data available.';
   }
-  
+
   // Filter tests with comparison data
-  const testsWithComparison = testNames.filter(
-    testName => testResults[testName].comparison !== undefined
-  );
-  
+  const testsWithComparison = testNames.filter((testName) => testResults[testName].comparison !== undefined);
+
   if (testsWithComparison.length === 0) {
     return 'No comparison data available for gas snapshot.';
   }
-  
+
   // Sort tests by gas change percentage (largest increase first)
   const sortedTests = [...testsWithComparison].sort((a, b) => {
     const aChange = testResults[a].comparison?.changePercentage || 0;
     const bChange = testResults[b].comparison?.changePercentage || 0;
     return bChange - aChange;
   });
-  
+
   // Generate the report
   let report = '## Gas Snapshot Comparison\n\n';
   report += '| Test | Current Gas | Previous Gas | Change | % Change |\n';
   report += '|------|-------------|--------------|--------|----------|\n';
-  
+
   for (const testName of sortedTests) {
     const { gasUsed, comparison } = testResults[testName];
-    
+
     if (!comparison) continue;
-    
+
     const { previous, change = 0, changePercentage = 0 } = comparison;
     const changeFormatted = change > 0 ? `+${change}` : `${change}`;
     const percentFormatted = changePercentage.toFixed(2);
     const isSignificant = Math.abs(changePercentage) >= GAS_SNAPSHOT_COMPARISON_THRESHOLD;
-    
+
     // Add emoji indicators for significant changes
     let indicator = '';
     if (isSignificant) {
       indicator = change > 0 ? ' 🔴' : ' 🟢';
     }
-    
+
     report += `| ${testName} | ${gasUsed} | ${previous} | ${changeFormatted} | ${percentFormatted}%${indicator} |\n`;
   }
-  
+
   // Add a summary
-  const increases = sortedTests.filter(
-    testName => (testResults[testName].comparison?.change || 0) > 0
-  ).length;
-  
-  const decreases = sortedTests.filter(
-    testName => (testResults[testName].comparison?.change || 0) < 0
-  ).length;
-  
-  const unchanged = sortedTests.filter(
-    testName => (testResults[testName].comparison?.change || 0) === 0
-  ).length;
-  
+  const increases = sortedTests.filter((testName) => (testResults[testName].comparison?.change || 0) > 0).length;
+
+  const decreases = sortedTests.filter((testName) => (testResults[testName].comparison?.change || 0) < 0).length;
+
+  const unchanged = sortedTests.filter((testName) => (testResults[testName].comparison?.change || 0) === 0).length;
+
   report += '\n### Summary\n\n';
   report += `- 🔴 Gas increases: ${increases}\n`;
   report += `- 🟢 Gas decreases: ${decreases}\n`;
   report += `- ⚪ Unchanged: ${unchanged}\n`;
   report += `- Total tests compared: ${sortedTests.length}\n`;
-  
+
   return report;
 }
 
@@ -278,9 +274,9 @@ export async function postGasReportToPR(report: string): Promise<boolean> {
     core.info('Not running on a pull request, skipping PR comment');
     return false;
   }
-  
+
   core.info('Would post the following gas report to PR:');
   core.info(report);
-  
+
   return true;
 }

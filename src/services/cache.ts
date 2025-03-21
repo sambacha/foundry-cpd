@@ -4,12 +4,7 @@ import * as github from '@actions/github';
 
 import { CacheOptions, CacheResult } from '../types';
 import { State } from '../types/state';
-import { 
-  CACHE_PATHS, 
-  RPC_CACHE_PREFIX, 
-  ARTIFACTS_CACHE_PREFIX,
-  GAS_SNAPSHOT_CACHE_PREFIX 
-} from '../constants';
+import { CACHE_PATHS, RPC_CACHE_PREFIX, ARTIFACTS_CACHE_PREFIX, GAS_SNAPSHOT_CACHE_PREFIX } from '../constants';
 import { ensureDirectoryExists, fileExists } from '../utils/fs';
 
 /**
@@ -18,7 +13,7 @@ import { ensureDirectoryExists, fileExists } from '../utils/fs';
 export enum CacheType {
   RPC = 'rpc',
   ARTIFACTS = 'artifacts',
-  GAS_SNAPSHOT = 'gas-snapshot'
+  GAS_SNAPSHOT = 'gas-snapshot',
 }
 
 /**
@@ -65,11 +60,11 @@ function getCachePaths(type: CacheType): string[] {
  */
 export function getPrimaryKey(customKeyInput: string | undefined, type: CacheType): string {
   const prefix = getCachePrefix(type);
-  
+
   if (!customKeyInput) {
     return `${prefix}${github.context.sha}`;
   }
-  
+
   return `${prefix}${customKeyInput.trim()}`;
 }
 
@@ -82,17 +77,17 @@ export function getPrimaryKey(customKeyInput: string | undefined, type: CacheTyp
 export function getRestoreKeys(customRestoreKeysInput: string | undefined, type: CacheType): string[] {
   const prefix = getCachePrefix(type);
   const defaultRestoreKeys = [prefix];
-  
+
   if (!customRestoreKeysInput) {
     return defaultRestoreKeys;
   }
-  
+
   const restoreKeys = customRestoreKeysInput
     .split(/[\r\n]/)
     .map((input) => input.trim())
     .filter((input) => input !== '')
     .map((input) => `${prefix}${input}`);
-  
+
   return [...restoreKeys, ...defaultRestoreKeys];
 }
 
@@ -102,57 +97,54 @@ export function getRestoreKeys(customRestoreKeysInput: string | undefined, type:
  * @param type The cache type
  * @returns A promise that resolves to a cache result
  */
-export async function restoreCache(
-  options: CacheOptions,
-  type: CacheType = CacheType.RPC
-): Promise<CacheResult> {
+export async function restoreCache(options: CacheOptions, type: CacheType = CacheType.RPC): Promise<CacheResult> {
   if (!options.enabled) {
     core.info(`Cache not requested for ${type}, not restoring cache`);
     return {
       primaryKey: '',
-      cacheHit: false
+      cacheHit: false,
     };
   }
-  
+
   const primaryKey = getPrimaryKey(options.primaryKey, type);
   core.saveState(State.CachePrimaryKey, primaryKey);
-  
+
   const restoreKeys = getRestoreKeys(options.restoreKeys?.join('\n'), type);
   const cachePaths = options.paths || getCachePaths(type);
-  
+
   // Ensure cache directories exist
-  cachePaths.forEach(cachePath => {
+  cachePaths.forEach((cachePath) => {
     ensureDirectoryExists(cachePath);
   });
-  
+
   core.info(`Restoring ${type} cache with key: ${primaryKey}`);
   core.debug(`Restore keys: ${restoreKeys.join(', ')}`);
   core.debug(`Cache paths: ${cachePaths.join(', ')}`);
-  
+
   try {
     const matchedKey = await cache.restoreCache(cachePaths, primaryKey, restoreKeys);
-    
+
     if (!matchedKey) {
       core.info(`${type} cache not found`);
       return {
         primaryKey,
-        cacheHit: false
+        cacheHit: false,
       };
     }
-    
+
     core.saveState(State.CacheMatchedKey, matchedKey);
     core.info(`${type} cache restored from key: ${matchedKey}`);
-    
+
     return {
       primaryKey,
       matchedKey,
-      cacheHit: true
+      cacheHit: true,
     };
   } catch (error) {
     core.warning(`Failed to restore ${type} cache: ${error instanceof Error ? error.message : String(error)}`);
     return {
       primaryKey,
-      cacheHit: false
+      cacheHit: false,
     };
   }
 }
@@ -163,49 +155,48 @@ export async function restoreCache(
  * @param type The cache type
  * @returns A promise that resolves to a boolean indicating whether the cache was saved
  */
-export async function saveCache(
-  options: CacheOptions,
-  type: CacheType = CacheType.RPC
-): Promise<boolean> {
+export async function saveCache(options: CacheOptions, type: CacheType = CacheType.RPC): Promise<boolean> {
   if (!options.enabled) {
     core.info(`Cache not requested for ${type}, not saving cache`);
     return false;
   }
-  
+
   const primaryKey = core.getState(State.CachePrimaryKey) || getPrimaryKey(options.primaryKey, type);
   const matchedKey = core.getState(State.CacheMatchedKey);
   const cachePaths = options.paths || getCachePaths(type);
-  
+
   // If the cache path does not exist, do not save the cache
-  const allPathsExist = cachePaths.every(cachePath => fileExists(cachePath));
+  const allPathsExist = cachePaths.every((cachePath) => fileExists(cachePath));
   if (!allPathsExist) {
     core.info(`One or more cache paths do not exist, not saving ${type} cache: ${cachePaths.join(', ')}`);
     return false;
   }
-  
+
   // If the primary key is not generated, do not save the cache
   if (!primaryKey) {
-    core.info(`Primary key was not generated for ${type} cache. Please check the log messages above for more errors or information`);
+    core.info(
+      `Primary key was not generated for ${type} cache. Please check the log messages above for more errors or information`,
+    );
     return false;
   }
-  
+
   // If the primary key and the matched key are the same, this means the cache was already saved
   if (primaryKey === matchedKey) {
     core.info(`Cache hit occurred on the primary key ${primaryKey} for ${type} cache, not saving cache.`);
     return false;
   }
-  
+
   core.info(`Saving ${type} cache with key: ${primaryKey}`);
   core.debug(`Cache paths: ${cachePaths.join(', ')}`);
-  
+
   try {
     const cacheId = await cache.saveCache(cachePaths, primaryKey);
-    
+
     // If the cacheId is -1, the saving failed with an error message log. No additional logging is needed.
     if (cacheId === -1) {
       return false;
     }
-    
+
     core.info(`${type} cache saved with the key: ${primaryKey}`);
     return true;
   } catch (error) {

@@ -12,7 +12,7 @@ export function ensureDirectoryExists(dirPath: string): boolean {
     if (fs.existsSync(dirPath)) {
       return true;
     }
-    
+
     fs.mkdirSync(dirPath, { recursive: true });
     return true;
   } catch (error) {
@@ -31,7 +31,7 @@ export function readJsonFile<T>(filePath: string): T | undefined {
     if (!fs.existsSync(filePath)) {
       return undefined;
     }
-    
+
     const fileContent = fs.readFileSync(filePath, 'utf8');
     return JSON.parse(fileContent) as T;
   } catch (error) {
@@ -67,7 +67,7 @@ export function readTextFile(filePath: string): string | undefined {
     if (!fs.existsSync(filePath)) {
       return undefined;
     }
-    
+
     return fs.readFileSync(filePath, 'utf8');
   } catch (error) {
     core.warning(`Failed to read text file ${filePath}: ${error instanceof Error ? error.message : String(error)}`);

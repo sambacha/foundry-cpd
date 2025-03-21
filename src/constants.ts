@@ -12,7 +12,7 @@ export const PLATFORM = os.platform();
 export const CACHE_PATHS = {
   RPC: path.join(HOME, '.foundry/cache/rpc'),
   ARTIFACTS: path.join(HOME, '.foundry/cache/artifacts'),
-  GAS_SNAPSHOTS: path.join(HOME, '.foundry/cache/gas-snapshots')
+  GAS_SNAPSHOTS: path.join(HOME, '.foundry/cache/gas-snapshots'),
 };
 
 export const CACHE_PREFIX = `${PLATFORM}-foundry-`;
@@ -36,7 +36,7 @@ export const ERROR_MESSAGES = {
   CACHE_RESTORE_FAILED: 'Failed to restore cache',
   CACHE_SAVE_FAILED: 'Failed to save cache',
   GAS_SNAPSHOT_PARSE_FAILED: 'Failed to parse gas snapshot',
-  GAS_SNAPSHOT_SAVE_FAILED: 'Failed to save gas snapshot'
+  GAS_SNAPSHOT_SAVE_FAILED: 'Failed to save gas snapshot',
 };
 
 // Success messages
@@ -46,5 +46,5 @@ export const SUCCESS_MESSAGES = {
   CACHE_RESTORE_SUCCESS: 'Successfully restored cache',
   CACHE_SAVE_SUCCESS: 'Successfully saved cache',
   GAS_SNAPSHOT_PARSE_SUCCESS: 'Successfully parsed gas snapshot',
-  GAS_SNAPSHOT_SAVE_SUCCESS: 'Successfully saved gas snapshot'
+  GAS_SNAPSHOT_SAVE_SUCCESS: 'Successfully saved gas snapshot',
 };

@@ -16,7 +16,7 @@ export function getGitHubContext(): {
 } {
   const { repo, ref, sha } = github.context;
   const { owner, repo: repoName } = repo;
-  
+
   return {
     repo: repoName,
     owner,
@@ -24,7 +24,7 @@ export function getGitHubContext(): {
     ref,
     workflow: github.context.workflow,
     runId: github.context.runId,
-    runNumber: github.context.runNumber
+    runNumber: github.context.runNumber,
   };
 }
 
@@ -52,12 +52,12 @@ export function getGitHubToken(): string | undefined {
  */
 export function createOctokitClient(token?: string): ReturnType<typeof github.getOctokit> | undefined {
   const authToken = token || getGitHubToken();
-  
+
   if (!authToken) {
     core.warning('No GitHub token available, some features may be limited');
     return undefined;
   }
-  
+
   return github.getOctokit(authToken);
 }
 
@@ -77,6 +77,6 @@ export function getPullRequestNumber(): number | undefined {
   if (!isPullRequest()) {
     return undefined;
   }
-  
+
   return github.context.payload.pull_request?.number;
 }

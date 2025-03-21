@@ -5,7 +5,7 @@ import { normalizeVersionName, mapArch, getDownloadObject } from './platform';
 jest.mock('os', () => ({
   platform: jest.fn(),
   arch: jest.fn(),
-  homedir: jest.fn()
+  homedir: jest.fn(),
 }));
 
 describe('platform utilities', () => {
@@ -54,7 +54,7 @@ describe('platform utilities', () => {
         binPath: '.',
         version: 'stable',
         platform: 'linux',
-        architecture: 'amd64'
+        architecture: 'amd64',
       });
     });
 
@@ -70,7 +70,7 @@ describe('platform utilities', () => {
         binPath: '.',
         version: 'v0.3.0',
         platform: 'win32',
-        architecture: 'amd64'
+        architecture: 'amd64',
       });
     });
 
@@ -86,7 +86,7 @@ describe('platform utilities', () => {
         binPath: '.',
         version: 'nightly-1234567890abcdef1234567890abcdef12345678',
         platform: 'darwin',
-        architecture: 'arm64'
+        architecture: 'arm64',
       });
     });
   });

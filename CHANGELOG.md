@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [2.0.0] - 2025-03-21
 
 ### Added
+
 - Complete TypeScript rewrite for improved type safety and maintainability
 - Enhanced caching system with support for multiple cache types:
   - RPC responses (existing)
@@ -25,12 +26,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - `github-token`: GitHub token for API operations
 
 ### Changed
+
 - Improved error handling and logging
 - Enhanced cache key generation strategy
 - Updated dependencies to latest versions
 - Improved documentation with examples for new features
 
 ### Fixed
+
 - Issue with slow post-action step by implementing early exit
 - Improved handling of cache paths that don't exist
 

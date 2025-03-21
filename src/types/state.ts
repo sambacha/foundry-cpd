@@ -6,9 +6,9 @@
  * Enum for the cache primary key and result key.
  */
 export enum State {
-  CachePrimaryKey = "CACHE_KEY",
-  CacheMatchedKey = "CACHE_RESULT",
-  GasSnapshotKey = "GAS_SNAPSHOT"
+  CachePrimaryKey = 'CACHE_KEY',
+  CacheMatchedKey = 'CACHE_RESULT',
+  GasSnapshotKey = 'GAS_SNAPSHOT',
 }
 
 /**

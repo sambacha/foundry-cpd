@@ -34,7 +34,7 @@ export function getDownloadObject(version: string): DownloadOptions {
   const arch = os.arch();
   const mappedArch = mapArch(arch);
   const normalizedVersion = normalizeVersionName(version);
-  
+
   const filename = `foundry_${normalizedVersion}_${platform}_${mappedArch}`;
   const extension = platform === 'win32' ? 'zip' : 'tar.gz';
   const url = `https://github.com/foundry-rs/foundry/releases/download/${version}/${filename}.${extension}`;
@@ -44,6 +44,6 @@ export function getDownloadObject(version: string): DownloadOptions {
     binPath: '.',
     version,
     platform,
-    architecture: mappedArch
+    architecture: mappedArch,
   };
 }

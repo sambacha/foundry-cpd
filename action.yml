@@ -1,20 +1,20 @@
-name: "foundry-toolchain"
-description: "Install Foundry with enhanced caching and gas snapshot tracking"
-author: "Foundry"
+name: 'foundry-toolchain'
+description: 'Install Foundry with enhanced caching and gas snapshot tracking'
+author: 'Foundry'
 branding:
-  color: "gray-dark"
-  icon: "play-circle"
+  color: 'gray-dark'
+  icon: 'play-circle'
 
 inputs:
   cache:
-    default: "true"
+    default: 'true'
     description: |
       Whether to enable caching for RPC responses and artifacts.
 
       Caching is activated by default.
     required: false
   cache-key:
-    default: "${{ github.job }}-${{ github.sha }}"
+    default: '${{ github.job }}-${{ github.sha }}'
     description: |
       A custom cache key to use.
 
@@ -29,7 +29,7 @@ inputs:
       This key is used to identify the cache to restore. If not provided, a default key consisting of the job id is used.
     required: false
   version:
-    default: "stable"
+    default: 'stable'
     description: |
       Foundry version.
 
@@ -37,14 +37,14 @@ inputs:
       The default value is `stable`, which will pull the latest stable build.
     required: false
   gas-snapshot:
-    default: "false"
+    default: 'false'
     description: |
       Whether to enable gas snapshot tracking.
 
       When enabled, the action will capture gas snapshots from Forge tests and track them over time.
     required: false
   gas-snapshot-test-pattern:
-    default: ""
+    default: ''
     description: |
       Test pattern to use for gas snapshots.
 
@@ -52,14 +52,14 @@ inputs:
       If not provided, all tests will be included in the gas snapshot.
     required: false
   gas-snapshot-pr-comment:
-    default: "true"
+    default: 'true'
     description: |
       Whether to post gas snapshot comparison as a comment on pull requests.
 
       When enabled and running on a pull request, the action will post a comment with the gas snapshot comparison.
     required: false
   github-token:
-    default: "${{ github.token }}"
+    default: '${{ github.token }}'
     description: |
       GitHub token to use for API operations.
 
@@ -68,7 +68,7 @@ inputs:
     required: false
 
 runs:
-  using: "node20"
-  main: "dist/index.js"
-  post: "dist/save/index.js"
+  using: 'node20'
+  main: 'dist/index.js'
+  post: 'dist/save/index.js'
   post-if: success()
