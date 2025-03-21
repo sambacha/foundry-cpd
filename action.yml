@@ -1,5 +1,5 @@
 name: "foundry-toolchain"
-description: "Install Foundry"
+description: "Install Foundry with enhanced caching and gas snapshot tracking"
 author: "Foundry"
 branding:
   color: "gray-dark"
@@ -9,7 +9,7 @@ inputs:
   cache:
     default: "true"
     description: |
-      Whether to cache RPC responses or not.
+      Whether to enable caching for RPC responses and artifacts.
 
       Caching is activated by default.
     required: false
@@ -35,6 +35,36 @@ inputs:
 
       This version number has to match a released version of Foundry.
       The default value is `stable`, which will pull the latest stable build.
+    required: false
+  gas-snapshot:
+    default: "false"
+    description: |
+      Whether to enable gas snapshot tracking.
+
+      When enabled, the action will capture gas snapshots from Forge tests and track them over time.
+    required: false
+  gas-snapshot-test-pattern:
+    default: ""
+    description: |
+      Test pattern to use for gas snapshots.
+
+      This pattern is passed to the `--match-test` option of the `forge snapshot` command.
+      If not provided, all tests will be included in the gas snapshot.
+    required: false
+  gas-snapshot-pr-comment:
+    default: "true"
+    description: |
+      Whether to post gas snapshot comparison as a comment on pull requests.
+
+      When enabled and running on a pull request, the action will post a comment with the gas snapshot comparison.
+    required: false
+  github-token:
+    default: "${{ github.token }}"
+    description: |
+      GitHub token to use for API operations.
+
+      This token is used for posting comments on pull requests and other GitHub API operations.
+      If not provided, the default GitHub token will be used.
     required: false
 
 runs:

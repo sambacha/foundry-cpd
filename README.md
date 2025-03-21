@@ -1,7 +1,7 @@
 ## `foundry-toolchain` Action
 
 This GitHub Action installs [Foundry](https://github.com/foundry-rs/foundry), the blazing fast, portable and modular
-toolkit for Ethereum application development.
+toolkit for Ethereum application development. It provides enhanced caching capabilities and gas snapshot tracking to improve your development workflow.
 
 ### Example workflow
 
@@ -29,14 +29,44 @@ jobs:
         run: forge snapshot
 ```
 
+### Example workflow with Gas Snapshot Tracking
+
+```yml
+on: [pull_request]
+
+name: test-with-gas-tracking
+
+jobs:
+  check:
+    name: Foundry project with gas tracking
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Install Foundry
+        uses: foundry-rs/foundry-toolchain@v1
+        with:
+          gas-snapshot: true
+          gas-snapshot-pr-comment: true
+
+      - name: Run tests
+        run: forge test -vvv
+```
+
 ### Inputs
 
-| **Name**             | **Required** | **Default**                           | **Description**                                                 | **Type** |
-| -------------------- | ------------ | ------------------------------------- | --------------------------------------------------------------- | -------- |
-| `cache`              | No           | `true`                                | Whether to cache RPC responses or not.                          | bool     |
-| `version`            | No           | `stable`                              | Version to install, e.g. `stable`, `rc`, `nightly` or `v0.3.0`. | string   |
-| `cache-key`          | No           | `${{ github.job }}-${{ github.sha }}` | The cache key to use for caching.                               | string   |
-| `cache-restore-keys` | No           | `[${{ github.job }}-]`                | The cache keys to use for restoring the cache.                  | string[] |
+| **Name**                   | **Required** | **Default**                           | **Description**                                                 | **Type** |
+| -------------------------- | ------------ | ------------------------------------- | --------------------------------------------------------------- | -------- |
+| `cache`                    | No           | `true`                                | Whether to enable caching for RPC responses and artifacts.       | bool     |
+| `version`                  | No           | `stable`                              | Version to install, e.g. `stable`, `rc`, `nightly` or `v0.3.0`. | string   |
+| `cache-key`                | No           | `${{ github.job }}-${{ github.sha }}` | The cache key to use for caching.                               | string   |
+| `cache-restore-keys`       | No           | `[${{ github.job }}-]`                | The cache keys to use for restoring the cache.                  | string[] |
+| `gas-snapshot`             | No           | `false`                               | Whether to enable gas snapshot tracking.                        | bool     |
+| `gas-snapshot-test-pattern`| No           | `""`                                  | Test pattern to use for gas snapshots.                          | string   |
+| `gas-snapshot-pr-comment`  | No           | `true`                                | Whether to post gas snapshot comparison as a PR comment.        | bool     |
+| `github-token`             | No           | `${{ github.token }}`                 | GitHub token to use for API operations.                         | string   |
 
 ### RPC Caching
 
@@ -107,6 +137,45 @@ For more detail on how to delete caches, read GitHub's docs on
 Note that if you are fuzzing in your fork tests, the RPC cache strategy above will not work unless you set a
 [fuzz seed](https://book.getfoundry.sh/reference/config/testing#seed). You might also want to reduce your number of RPC
 calls by using [Multicall](https://github.com/mds1/multicall).
+
+### Gas Snapshot Tracking
+
+This action now includes built-in gas snapshot tracking capabilities, allowing you to monitor gas usage across your Solidity contracts over time. When enabled, the action will:
+
+1. Capture gas snapshots from your Forge tests
+2. Compare them with previous snapshots
+3. Track historical gas usage data
+4. Generate reports highlighting gas changes
+5. Optionally post these reports as comments on pull requests
+
+This feature is particularly useful for:
+- Identifying gas regressions in your code
+- Optimizing contract gas usage
+- Ensuring gas efficiency across your codebase
+- Documenting gas improvements in PRs
+
+To enable gas snapshot tracking, set the `gas-snapshot` input to `true`:
+
+```yml
+- name: Install Foundry
+  uses: foundry-rs/foundry-toolchain@v1
+  with:
+    gas-snapshot: true
+```
+
+You can also filter which tests are included in the gas snapshot by using the `gas-snapshot-test-pattern` input:
+
+```yml
+- name: Install Foundry
+  uses: foundry-rs/foundry-toolchain@v1
+  with:
+    gas-snapshot: true
+    gas-snapshot-test-pattern: "test_gas_*"
+```
+
+When running on pull requests, the action can automatically post a comment with a gas comparison report. This is enabled by default when gas snapshot tracking is enabled, but you can disable it by setting `gas-snapshot-pr-comment` to `false`.
+
+The gas snapshot data is cached between workflow runs, allowing for historical tracking and comparison over time.
 
 ### Summaries
 

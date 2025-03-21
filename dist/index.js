@@ -1,6 +1,1260 @@
 require('./sourcemap-register.js');/******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
+/***/ 1110:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || (function () {
+    var ownKeys = function(o) {
+        ownKeys = Object.getOwnPropertyNames || function (o) {
+            var ar = [];
+            for (var k in o) if (Object.prototype.hasOwnProperty.call(o, k)) ar[ar.length] = k;
+            return ar;
+        };
+        return ownKeys(o);
+    };
+    return function (mod) {
+        if (mod && mod.__esModule) return mod;
+        var result = {};
+        if (mod != null) for (var k = ownKeys(mod), i = 0; i < k.length; i++) if (k[i] !== "default") __createBinding(result, mod, k[i]);
+        __setModuleDefault(result, mod);
+        return result;
+    };
+})();
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.SUCCESS_MESSAGES = exports.ERROR_MESSAGES = exports.FOUNDRY_DOWNLOAD_BASE_URL = exports.FOUNDRY_REPO = exports.GAS_SNAPSHOT_COMPARISON_THRESHOLD = exports.GAS_SNAPSHOT_HISTORY_FILENAME = exports.GAS_SNAPSHOT_FILENAME = exports.GAS_SNAPSHOT_CACHE_PREFIX = exports.ARTIFACTS_CACHE_PREFIX = exports.RPC_CACHE_PREFIX = exports.CACHE_PREFIX = exports.CACHE_PATHS = exports.PLATFORM = exports.HOME = exports.State = void 0;
+const os = __importStar(__nccwpck_require__(857));
+const path = __importStar(__nccwpck_require__(6928));
+// Re-export the State enum from types
+var state_1 = __nccwpck_require__(3747);
+Object.defineProperty(exports, "State", ({ enumerable: true, get: function () { return state_1.State; } }));
+// Define constants for cache paths and prefix
+exports.HOME = os.homedir();
+exports.PLATFORM = os.platform();
+// Cache related constants
+exports.CACHE_PATHS = {
+    RPC: path.join(exports.HOME, '.foundry/cache/rpc'),
+    ARTIFACTS: path.join(exports.HOME, '.foundry/cache/artifacts'),
+    GAS_SNAPSHOTS: path.join(exports.HOME, '.foundry/cache/gas-snapshots')
+};
+exports.CACHE_PREFIX = `${exports.PLATFORM}-foundry-`;
+exports.RPC_CACHE_PREFIX = `${exports.CACHE_PREFIX}chain-fork-`;
+exports.ARTIFACTS_CACHE_PREFIX = `${exports.CACHE_PREFIX}artifacts-`;
+exports.GAS_SNAPSHOT_CACHE_PREFIX = `${exports.CACHE_PREFIX}gas-snapshot-`;
+// Gas snapshot related constants
+exports.GAS_SNAPSHOT_FILENAME = 'gas-snapshot.json';
+exports.GAS_SNAPSHOT_HISTORY_FILENAME = 'gas-snapshot-history.json';
+exports.GAS_SNAPSHOT_COMPARISON_THRESHOLD = 5; // 5% change threshold for highlighting
+// Download related constants
+exports.FOUNDRY_REPO = 'foundry-rs/foundry';
+exports.FOUNDRY_DOWNLOAD_BASE_URL = `https://github.com/${exports.FOUNDRY_REPO}/releases/download`;
+// Error messages
+exports.ERROR_MESSAGES = {
+    DOWNLOAD_FAILED: 'Failed to download Foundry binaries',
+    EXTRACT_FAILED: 'Failed to extract Foundry binaries',
+    CACHE_RESTORE_FAILED: 'Failed to restore cache',
+    CACHE_SAVE_FAILED: 'Failed to save cache',
+    GAS_SNAPSHOT_PARSE_FAILED: 'Failed to parse gas snapshot',
+    GAS_SNAPSHOT_SAVE_FAILED: 'Failed to save gas snapshot'
+};
+// Success messages
+exports.SUCCESS_MESSAGES = {
+    DOWNLOAD_SUCCESS: 'Successfully downloaded Foundry binaries',
+    EXTRACT_SUCCESS: 'Successfully extracted Foundry binaries',
+    CACHE_RESTORE_SUCCESS: 'Successfully restored cache',
+    CACHE_SAVE_SUCCESS: 'Successfully saved cache',
+    GAS_SNAPSHOT_PARSE_SUCCESS: 'Successfully parsed gas snapshot',
+    GAS_SNAPSHOT_SAVE_SUCCESS: 'Successfully saved gas snapshot'
+};
+//# sourceMappingURL=constants.js.map
+
+/***/ }),
+
+/***/ 1188:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || (function () {
+    var ownKeys = function(o) {
+        ownKeys = Object.getOwnPropertyNames || function (o) {
+            var ar = [];
+            for (var k in o) if (Object.prototype.hasOwnProperty.call(o, k)) ar[ar.length] = k;
+            return ar;
+        };
+        return ownKeys(o);
+    };
+    return function (mod) {
+        if (mod && mod.__esModule) return mod;
+        var result = {};
+        if (mod != null) for (var k = ownKeys(mod), i = 0; i < k.length; i++) if (k[i] !== "default") __createBinding(result, mod, k[i]);
+        __setModuleDefault(result, mod);
+        return result;
+    };
+})();
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const core = __importStar(__nccwpck_require__(7484));
+const services_1 = __nccwpck_require__(9001);
+/**
+ * Main function for the Foundry Toolchain action
+ */
+async function main() {
+    try {
+        // Get inputs
+        const version = core.getInput('version');
+        const cacheEnabled = core.getBooleanInput('cache');
+        const cacheKey = core.getInput('cache-key');
+        const cacheRestoreKeys = core.getInput('cache-restore-keys');
+        const gasSnapshotEnabled = core.getBooleanInput('gas-snapshot');
+        const gasSnapshotTestPattern = core.getInput('gas-snapshot-test-pattern');
+        const gasSnapshotPrComment = core.getBooleanInput('gas-snapshot-pr-comment');
+        // Download and install Foundry
+        core.startGroup('Downloading Foundry');
+        const { binPath } = await (0, services_1.downloadFoundry)(version);
+        (0, services_1.addFoundryToPath)(binPath);
+        core.endGroup();
+        // Cache options
+        const cacheOptions = {
+            enabled: cacheEnabled,
+            primaryKey: cacheKey,
+            restoreKeys: cacheRestoreKeys ? cacheRestoreKeys.split('\n') : undefined
+        };
+        // Restore caches if enabled
+        if (cacheEnabled) {
+            core.startGroup('Restoring caches');
+            // Restore RPC cache
+            await (0, services_1.restoreRPCCache)(cacheOptions);
+            // Restore artifacts cache
+            await (0, services_1.restoreArtifactsCache)(cacheOptions);
+            // Restore gas snapshot cache if enabled
+            if (gasSnapshotEnabled) {
+                await (0, services_1.restoreGasSnapshotCache)(cacheOptions);
+            }
+            core.endGroup();
+        }
+        else {
+            core.info('Cache not requested, not restoring caches');
+        }
+        // Handle gas snapshot if enabled
+        if (gasSnapshotEnabled) {
+            core.startGroup('Processing gas snapshot');
+            // Capture current gas snapshot
+            const testResults = await (0, services_1.captureGasSnapshot)(gasSnapshotTestPattern);
+            const currentSnapshot = (0, services_1.createGasSnapshot)(testResults);
+            // Load previous snapshot for comparison
+            const previousSnapshot = (0, services_1.loadGasSnapshot)();
+            if (previousSnapshot) {
+                // Compare snapshots and generate report
+                const comparedSnapshot = (0, services_1.compareGasSnapshots)(currentSnapshot, previousSnapshot);
+                // Save the snapshot with comparison data
+                await (0, services_1.saveGasSnapshot)(comparedSnapshot);
+                // Add to history
+                await (0, services_1.addGasSnapshotToHistory)(comparedSnapshot);
+                // Generate and post report if requested
+                if (gasSnapshotPrComment) {
+                    const report = (0, services_1.generateGasReport)(comparedSnapshot);
+                    await (0, services_1.postGasReportToPR)(report);
+                }
+                core.info('Gas snapshot comparison completed');
+            }
+            else {
+                // Save the snapshot without comparison data
+                await (0, services_1.saveGasSnapshot)(currentSnapshot);
+                await (0, services_1.addGasSnapshotToHistory)(currentSnapshot);
+                core.info('No previous gas snapshot found, saved current snapshot');
+            }
+            core.endGroup();
+        }
+        core.info('Foundry Toolchain setup completed successfully');
+    }
+    catch (error) {
+        core.setFailed(error instanceof Error ? error.message : String(error));
+    }
+}
+// Run the action
+if (require.main === require.cache[eval('__filename')]) {
+    main().catch(error => {
+        core.setFailed(error instanceof Error ? error.message : String(error));
+    });
+}
+exports["default"] = main;
+//# sourceMappingURL=index.js.map
+
+/***/ }),
+
+/***/ 6231:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || (function () {
+    var ownKeys = function(o) {
+        ownKeys = Object.getOwnPropertyNames || function (o) {
+            var ar = [];
+            for (var k in o) if (Object.prototype.hasOwnProperty.call(o, k)) ar[ar.length] = k;
+            return ar;
+        };
+        return ownKeys(o);
+    };
+    return function (mod) {
+        if (mod && mod.__esModule) return mod;
+        var result = {};
+        if (mod != null) for (var k = ownKeys(mod), i = 0; i < k.length; i++) if (k[i] !== "default") __createBinding(result, mod, k[i]);
+        __setModuleDefault(result, mod);
+        return result;
+    };
+})();
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.CacheType = void 0;
+exports.getPrimaryKey = getPrimaryKey;
+exports.getRestoreKeys = getRestoreKeys;
+exports.restoreCache = restoreCache;
+exports.saveCache = saveCache;
+exports.restoreRPCCache = restoreRPCCache;
+exports.saveRPCCache = saveRPCCache;
+exports.restoreArtifactsCache = restoreArtifactsCache;
+exports.saveArtifactsCache = saveArtifactsCache;
+exports.restoreGasSnapshotCache = restoreGasSnapshotCache;
+exports.saveGasSnapshotCache = saveGasSnapshotCache;
+const core = __importStar(__nccwpck_require__(7484));
+const cache = __importStar(__nccwpck_require__(5116));
+const github = __importStar(__nccwpck_require__(3228));
+const state_1 = __nccwpck_require__(3747);
+const constants_1 = __nccwpck_require__(1110);
+const fs_1 = __nccwpck_require__(8479);
+/**
+ * Cache types supported by the cache service
+ */
+var CacheType;
+(function (CacheType) {
+    CacheType["RPC"] = "rpc";
+    CacheType["ARTIFACTS"] = "artifacts";
+    CacheType["GAS_SNAPSHOT"] = "gas-snapshot";
+})(CacheType || (exports.CacheType = CacheType = {}));
+/**
+ * Gets the cache prefix for the specified cache type
+ * @param type The cache type
+ * @returns The cache prefix
+ */
+function getCachePrefix(type) {
+    switch (type) {
+        case CacheType.RPC:
+            return constants_1.RPC_CACHE_PREFIX;
+        case CacheType.ARTIFACTS:
+            return constants_1.ARTIFACTS_CACHE_PREFIX;
+        case CacheType.GAS_SNAPSHOT:
+            return constants_1.GAS_SNAPSHOT_CACHE_PREFIX;
+        default:
+            return constants_1.RPC_CACHE_PREFIX;
+    }
+}
+/**
+ * Gets the cache paths for the specified cache type
+ * @param type The cache type
+ * @returns An array of cache paths
+ */
+function getCachePaths(type) {
+    switch (type) {
+        case CacheType.RPC:
+            return [constants_1.CACHE_PATHS.RPC];
+        case CacheType.ARTIFACTS:
+            return [constants_1.CACHE_PATHS.ARTIFACTS];
+        case CacheType.GAS_SNAPSHOT:
+            return [constants_1.CACHE_PATHS.GAS_SNAPSHOTS];
+        default:
+            return [constants_1.CACHE_PATHS.RPC];
+    }
+}
+/**
+ * Constructs the primary key for the cache using a custom key input
+ * @param customKeyInput The custom part of the key provided by the user
+ * @param type The cache type
+ * @returns The complete primary key for the cache
+ */
+function getPrimaryKey(customKeyInput, type) {
+    const prefix = getCachePrefix(type);
+    if (!customKeyInput) {
+        return `${prefix}${github.context.sha}`;
+    }
+    return `${prefix}${customKeyInput.trim()}`;
+}
+/**
+ * Constructs an array of restore keys based on user input and a default prefix
+ * @param customRestoreKeysInput Newline-separated string of custom restore keys
+ * @param type The cache type
+ * @returns An array of restore keys for the cache
+ */
+function getRestoreKeys(customRestoreKeysInput, type) {
+    const prefix = getCachePrefix(type);
+    const defaultRestoreKeys = [prefix];
+    if (!customRestoreKeysInput) {
+        return defaultRestoreKeys;
+    }
+    const restoreKeys = customRestoreKeysInput
+        .split(/[\r\n]/)
+        .map((input) => input.trim())
+        .filter((input) => input !== '')
+        .map((input) => `${prefix}${input}`);
+    return [...restoreKeys, ...defaultRestoreKeys];
+}
+/**
+ * Restores the cache for the specified type using the provided options
+ * @param options The cache options
+ * @param type The cache type
+ * @returns A promise that resolves to a cache result
+ */
+async function restoreCache(options, type = CacheType.RPC) {
+    if (!options.enabled) {
+        core.info(`Cache not requested for ${type}, not restoring cache`);
+        return {
+            primaryKey: '',
+            cacheHit: false
+        };
+    }
+    const primaryKey = getPrimaryKey(options.primaryKey, type);
+    core.saveState(state_1.State.CachePrimaryKey, primaryKey);
+    const restoreKeys = getRestoreKeys(options.restoreKeys?.join('\n'), type);
+    const cachePaths = options.paths || getCachePaths(type);
+    // Ensure cache directories exist
+    cachePaths.forEach(cachePath => {
+        (0, fs_1.ensureDirectoryExists)(cachePath);
+    });
+    core.info(`Restoring ${type} cache with key: ${primaryKey}`);
+    core.debug(`Restore keys: ${restoreKeys.join(', ')}`);
+    core.debug(`Cache paths: ${cachePaths.join(', ')}`);
+    try {
+        const matchedKey = await cache.restoreCache(cachePaths, primaryKey, restoreKeys);
+        if (!matchedKey) {
+            core.info(`${type} cache not found`);
+            return {
+                primaryKey,
+                cacheHit: false
+            };
+        }
+        core.saveState(state_1.State.CacheMatchedKey, matchedKey);
+        core.info(`${type} cache restored from key: ${matchedKey}`);
+        return {
+            primaryKey,
+            matchedKey,
+            cacheHit: true
+        };
+    }
+    catch (error) {
+        core.warning(`Failed to restore ${type} cache: ${error instanceof Error ? error.message : String(error)}`);
+        return {
+            primaryKey,
+            cacheHit: false
+        };
+    }
+}
+/**
+ * Saves the cache for the specified type using the provided options
+ * @param options The cache options
+ * @param type The cache type
+ * @returns A promise that resolves to a boolean indicating whether the cache was saved
+ */
+async function saveCache(options, type = CacheType.RPC) {
+    if (!options.enabled) {
+        core.info(`Cache not requested for ${type}, not saving cache`);
+        return false;
+    }
+    const primaryKey = core.getState(state_1.State.CachePrimaryKey) || getPrimaryKey(options.primaryKey, type);
+    const matchedKey = core.getState(state_1.State.CacheMatchedKey);
+    const cachePaths = options.paths || getCachePaths(type);
+    // If the cache path does not exist, do not save the cache
+    const allPathsExist = cachePaths.every(cachePath => (0, fs_1.fileExists)(cachePath));
+    if (!allPathsExist) {
+        core.info(`One or more cache paths do not exist, not saving ${type} cache: ${cachePaths.join(', ')}`);
+        return false;
+    }
+    // If the primary key is not generated, do not save the cache
+    if (!primaryKey) {
+        core.info(`Primary key was not generated for ${type} cache. Please check the log messages above for more errors or information`);
+        return false;
+    }
+    // If the primary key and the matched key are the same, this means the cache was already saved
+    if (primaryKey === matchedKey) {
+        core.info(`Cache hit occurred on the primary key ${primaryKey} for ${type} cache, not saving cache.`);
+        return false;
+    }
+    core.info(`Saving ${type} cache with key: ${primaryKey}`);
+    core.debug(`Cache paths: ${cachePaths.join(', ')}`);
+    try {
+        const cacheId = await cache.saveCache(cachePaths, primaryKey);
+        // If the cacheId is -1, the saving failed with an error message log. No additional logging is needed.
+        if (cacheId === -1) {
+            return false;
+        }
+        core.info(`${type} cache saved with the key: ${primaryKey}`);
+        return true;
+    }
+    catch (error) {
+        core.warning(`Failed to save ${type} cache: ${error instanceof Error ? error.message : String(error)}`);
+        return false;
+    }
+}
+/**
+ * Restores the RPC cache using the provided options
+ * @param options The cache options
+ * @returns A promise that resolves to a cache result
+ */
+async function restoreRPCCache(options) {
+    return restoreCache(options, CacheType.RPC);
+}
+/**
+ * Saves the RPC cache using the provided options
+ * @param options The cache options
+ * @returns A promise that resolves to a boolean indicating whether the cache was saved
+ */
+async function saveRPCCache(options) {
+    return saveCache(options, CacheType.RPC);
+}
+/**
+ * Restores the artifacts cache using the provided options
+ * @param options The cache options
+ * @returns A promise that resolves to a cache result
+ */
+async function restoreArtifactsCache(options) {
+    return restoreCache(options, CacheType.ARTIFACTS);
+}
+/**
+ * Saves the artifacts cache using the provided options
+ * @param options The cache options
+ * @returns A promise that resolves to a boolean indicating whether the cache was saved
+ */
+async function saveArtifactsCache(options) {
+    return saveCache(options, CacheType.ARTIFACTS);
+}
+/**
+ * Restores the gas snapshot cache using the provided options
+ * @param options The cache options
+ * @returns A promise that resolves to a cache result
+ */
+async function restoreGasSnapshotCache(options) {
+    return restoreCache(options, CacheType.GAS_SNAPSHOT);
+}
+/**
+ * Saves the gas snapshot cache using the provided options
+ * @param options The cache options
+ * @returns A promise that resolves to a boolean indicating whether the cache was saved
+ */
+async function saveGasSnapshotCache(options) {
+    return saveCache(options, CacheType.GAS_SNAPSHOT);
+}
+//# sourceMappingURL=cache.js.map
+
+/***/ }),
+
+/***/ 2821:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || (function () {
+    var ownKeys = function(o) {
+        ownKeys = Object.getOwnPropertyNames || function (o) {
+            var ar = [];
+            for (var k in o) if (Object.prototype.hasOwnProperty.call(o, k)) ar[ar.length] = k;
+            return ar;
+        };
+        return ownKeys(o);
+    };
+    return function (mod) {
+        if (mod && mod.__esModule) return mod;
+        var result = {};
+        if (mod != null) for (var k = ownKeys(mod), i = 0; i < k.length; i++) if (k[i] !== "default") __createBinding(result, mod, k[i]);
+        __setModuleDefault(result, mod);
+        return result;
+    };
+})();
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.downloadFoundry = downloadFoundry;
+exports.addFoundryToPath = addFoundryToPath;
+const core = __importStar(__nccwpck_require__(7484));
+const toolCache = __importStar(__nccwpck_require__(3472));
+const path = __importStar(__nccwpck_require__(6928));
+const platform_1 = __nccwpck_require__(2359);
+const constants_1 = __nccwpck_require__(1110);
+/**
+ * Downloads and extracts the Foundry binaries for the specified version
+ * @param version The version of Foundry to download
+ * @returns A promise that resolves to the path to the downloaded binaries
+ */
+async function downloadFoundry(version) {
+    try {
+        // Get download information
+        const download = (0, platform_1.getDownloadObject)(version);
+        core.info(`Downloading Foundry '${version}' from: ${download.url}`);
+        // Download the archive containing the binaries
+        const pathToArchive = await toolCache.downloadTool(download.url);
+        core.info(constants_1.SUCCESS_MESSAGES.DOWNLOAD_SUCCESS);
+        // Extract the archive onto host runner
+        core.debug(`Extracting ${pathToArchive}`);
+        const extract = download.url.endsWith('.zip') ? toolCache.extractZip : toolCache.extractTar;
+        const pathToCLI = await extract(pathToArchive);
+        core.info(constants_1.SUCCESS_MESSAGES.EXTRACT_SUCCESS);
+        // Return the path to the binaries
+        return {
+            binPath: path.join(pathToCLI, download.binPath || '.')
+        };
+    }
+    catch (error) {
+        core.error(`${constants_1.ERROR_MESSAGES.DOWNLOAD_FAILED}: ${error instanceof Error ? error.message : String(error)}`);
+        throw new Error(`${constants_1.ERROR_MESSAGES.DOWNLOAD_FAILED}: ${error instanceof Error ? error.message : String(error)}`);
+    }
+}
+/**
+ * Adds the Foundry binaries to the PATH
+ * @param binPath The path to the Foundry binaries
+ */
+function addFoundryToPath(binPath) {
+    core.addPath(binPath);
+    core.info(`Added Foundry to PATH: ${binPath}`);
+}
+//# sourceMappingURL=download.js.map
+
+/***/ }),
+
+/***/ 5736:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || (function () {
+    var ownKeys = function(o) {
+        ownKeys = Object.getOwnPropertyNames || function (o) {
+            var ar = [];
+            for (var k in o) if (Object.prototype.hasOwnProperty.call(o, k)) ar[ar.length] = k;
+            return ar;
+        };
+        return ownKeys(o);
+    };
+    return function (mod) {
+        if (mod && mod.__esModule) return mod;
+        var result = {};
+        if (mod != null) for (var k = ownKeys(mod), i = 0; i < k.length; i++) if (k[i] !== "default") __createBinding(result, mod, k[i]);
+        __setModuleDefault(result, mod);
+        return result;
+    };
+})();
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.parseGasSnapshot = parseGasSnapshot;
+exports.captureGasSnapshot = captureGasSnapshot;
+exports.createGasSnapshot = createGasSnapshot;
+exports.compareGasSnapshots = compareGasSnapshots;
+exports.saveGasSnapshot = saveGasSnapshot;
+exports.loadGasSnapshot = loadGasSnapshot;
+exports.addGasSnapshotToHistory = addGasSnapshotToHistory;
+exports.generateGasReport = generateGasReport;
+exports.postGasReportToPR = postGasReportToPR;
+const core = __importStar(__nccwpck_require__(7484));
+const path = __importStar(__nccwpck_require__(6928));
+const child_process_1 = __nccwpck_require__(5317);
+const constants_1 = __nccwpck_require__(1110);
+const state_1 = __nccwpck_require__(3747);
+const github_1 = __nccwpck_require__(9803);
+const fs_1 = __nccwpck_require__(8479);
+/**
+ * Parses a gas snapshot from the output of the forge snapshot command
+ * @param snapshotOutput The output of the forge snapshot command
+ * @returns A gas snapshot object
+ */
+function parseGasSnapshot(snapshotOutput) {
+    try {
+        const lines = snapshotOutput.split('\n');
+        const result = {};
+        for (const line of lines) {
+            // Match lines like "test_name() (gas: 12345)"
+            const match = line.match(/^(.*?)\s+\(gas:\s+(\d+)\)/);
+            if (match) {
+                const [, testName, gasUsed] = match;
+                result[testName.trim()] = parseInt(gasUsed, 10);
+            }
+        }
+        return result;
+    }
+    catch (error) {
+        core.warning(`${constants_1.ERROR_MESSAGES.GAS_SNAPSHOT_PARSE_FAILED}: ${error instanceof Error ? error.message : String(error)}`);
+        return {};
+    }
+}
+/**
+ * Captures a gas snapshot by running the forge snapshot command
+ * @param testPattern Optional test pattern to filter tests
+ * @returns A promise that resolves to a gas snapshot object
+ */
+async function captureGasSnapshot(testPattern) {
+    try {
+        const command = `forge snapshot ${testPattern ? `--match-test "${testPattern}"` : ''}`;
+        core.info(`Capturing gas snapshot with command: ${command}`);
+        const output = (0, child_process_1.execSync)(command, { encoding: 'utf8' });
+        const snapshot = parseGasSnapshot(output);
+        core.info(`Captured gas snapshot with ${Object.keys(snapshot).length} test results`);
+        return snapshot;
+    }
+    catch (error) {
+        core.warning(`Failed to capture gas snapshot: ${error instanceof Error ? error.message : String(error)}`);
+        return {};
+    }
+}
+/**
+ * Creates a gas snapshot object with metadata
+ * @param testResults The test results from the gas snapshot
+ * @returns A gas snapshot object with metadata
+ */
+function createGasSnapshot(testResults) {
+    const { sha } = (0, github_1.getGitHubContext)();
+    return {
+        timestamp: new Date().toISOString(),
+        commitSha: sha,
+        testResults: Object.entries(testResults).reduce((acc, [testName, gasUsed]) => {
+            acc[testName] = { gasUsed };
+            return acc;
+        }, {})
+    };
+}
+/**
+ * Compares two gas snapshots and adds comparison data to the current snapshot
+ * @param currentSnapshot The current gas snapshot
+ * @param previousSnapshot The previous gas snapshot to compare against
+ * @returns The current snapshot with comparison data added
+ */
+function compareGasSnapshots(currentSnapshot, previousSnapshot) {
+    // Create a new snapshot object to avoid modifying the original
+    const result = {
+        ...currentSnapshot,
+        testResults: { ...currentSnapshot.testResults }
+    };
+    // Add comparison data for each test
+    for (const [testName, current] of Object.entries(result.testResults)) {
+        const previous = previousSnapshot.testResults[testName];
+        if (previous) {
+            const change = current.gasUsed - previous.gasUsed;
+            const changePercentage = (change / previous.gasUsed) * 100;
+            result.testResults[testName] = {
+                ...current,
+                comparison: {
+                    previous: previous.gasUsed,
+                    change,
+                    changePercentage
+                }
+            };
+        }
+    }
+    return result;
+}
+/**
+ * Saves a gas snapshot to the specified file
+ * @param snapshot The gas snapshot to save
+ * @param filePath The path to save the snapshot to
+ * @returns A promise that resolves to a boolean indicating whether the snapshot was saved
+ */
+async function saveGasSnapshot(snapshot, filePath = path.join(constants_1.CACHE_PATHS.GAS_SNAPSHOTS, constants_1.GAS_SNAPSHOT_FILENAME)) {
+    try {
+        (0, fs_1.ensureDirectoryExists)(path.dirname(filePath));
+        const result = (0, fs_1.writeJsonFile)(filePath, snapshot);
+        if (result) {
+            core.info(`${constants_1.SUCCESS_MESSAGES.GAS_SNAPSHOT_SAVE_SUCCESS}: ${filePath}`);
+            core.saveState(state_1.State.GasSnapshotKey, filePath);
+        }
+        return result;
+    }
+    catch (error) {
+        core.warning(`${constants_1.ERROR_MESSAGES.GAS_SNAPSHOT_SAVE_FAILED}: ${error instanceof Error ? error.message : String(error)}`);
+        return false;
+    }
+}
+/**
+ * Loads a gas snapshot from the specified file
+ * @param filePath The path to load the snapshot from
+ * @returns The loaded gas snapshot or undefined if the file does not exist or is invalid
+ */
+function loadGasSnapshot(filePath = path.join(constants_1.CACHE_PATHS.GAS_SNAPSHOTS, constants_1.GAS_SNAPSHOT_FILENAME)) {
+    return (0, fs_1.readJsonFile)(filePath);
+}
+/**
+ * Adds a gas snapshot to the history file
+ * @param snapshot The gas snapshot to add to the history
+ * @param historyFilePath The path to the history file
+ * @returns A promise that resolves to a boolean indicating whether the snapshot was added to the history
+ */
+async function addGasSnapshotToHistory(snapshot, historyFilePath = path.join(constants_1.CACHE_PATHS.GAS_SNAPSHOTS, constants_1.GAS_SNAPSHOT_HISTORY_FILENAME)) {
+    try {
+        (0, fs_1.ensureDirectoryExists)(path.dirname(historyFilePath));
+        // Load existing history or create a new one
+        const history = (0, fs_1.readJsonFile)(historyFilePath) || [];
+        // Add the new snapshot to the history
+        history.push(snapshot);
+        // Limit history size to 100 entries
+        const limitedHistory = history.slice(-100);
+        // Save the updated history
+        const result = (0, fs_1.writeJsonFile)(historyFilePath, limitedHistory);
+        if (result) {
+            core.info(`Added gas snapshot to history: ${historyFilePath}`);
+        }
+        return result;
+    }
+    catch (error) {
+        core.warning(`Failed to add gas snapshot to history: ${error instanceof Error ? error.message : String(error)}`);
+        return false;
+    }
+}
+/**
+ * Generates a markdown report of gas changes
+ * @param snapshot The gas snapshot with comparison data
+ * @returns A markdown string containing the gas changes report
+ */
+function generateGasReport(snapshot) {
+    const { testResults } = snapshot;
+    const testNames = Object.keys(testResults);
+    if (testNames.length === 0) {
+        return 'No gas snapshot data available.';
+    }
+    // Filter tests with comparison data
+    const testsWithComparison = testNames.filter(testName => testResults[testName].comparison !== undefined);
+    if (testsWithComparison.length === 0) {
+        return 'No comparison data available for gas snapshot.';
+    }
+    // Sort tests by gas change percentage (largest increase first)
+    const sortedTests = [...testsWithComparison].sort((a, b) => {
+        const aChange = testResults[a].comparison?.changePercentage || 0;
+        const bChange = testResults[b].comparison?.changePercentage || 0;
+        return bChange - aChange;
+    });
+    // Generate the report
+    let report = '## Gas Snapshot Comparison\n\n';
+    report += '| Test | Current Gas | Previous Gas | Change | % Change |\n';
+    report += '|------|-------------|--------------|--------|----------|\n';
+    for (const testName of sortedTests) {
+        const { gasUsed, comparison } = testResults[testName];
+        if (!comparison)
+            continue;
+        const { previous, change = 0, changePercentage = 0 } = comparison;
+        const changeFormatted = change > 0 ? `+${change}` : `${change}`;
+        const percentFormatted = changePercentage.toFixed(2);
+        const isSignificant = Math.abs(changePercentage) >= constants_1.GAS_SNAPSHOT_COMPARISON_THRESHOLD;
+        // Add emoji indicators for significant changes
+        let indicator = '';
+        if (isSignificant) {
+            indicator = change > 0 ? ' 🔴' : ' 🟢';
+        }
+        report += `| ${testName} | ${gasUsed} | ${previous} | ${changeFormatted} | ${percentFormatted}%${indicator} |\n`;
+    }
+    // Add a summary
+    const increases = sortedTests.filter(testName => (testResults[testName].comparison?.change || 0) > 0).length;
+    const decreases = sortedTests.filter(testName => (testResults[testName].comparison?.change || 0) < 0).length;
+    const unchanged = sortedTests.filter(testName => (testResults[testName].comparison?.change || 0) === 0).length;
+    report += '\n### Summary\n\n';
+    report += `- 🔴 Gas increases: ${increases}\n`;
+    report += `- 🟢 Gas decreases: ${decreases}\n`;
+    report += `- ⚪ Unchanged: ${unchanged}\n`;
+    report += `- Total tests compared: ${sortedTests.length}\n`;
+    return report;
+}
+/**
+ * Posts a gas report as a comment on a pull request
+ * @param report The markdown report to post
+ * @returns A promise that resolves to a boolean indicating whether the report was posted
+ */
+async function postGasReportToPR(report) {
+    // This would use the GitHub API to post a comment on a PR
+    // For now, we'll just log the report
+    if (!(0, github_1.isPullRequest)()) {
+        core.info('Not running on a pull request, skipping PR comment');
+        return false;
+    }
+    core.info('Would post the following gas report to PR:');
+    core.info(report);
+    return true;
+}
+//# sourceMappingURL=gas.js.map
+
+/***/ }),
+
+/***/ 9001:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+/**
+ * Services for the Foundry Toolchain
+ */
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __exportStar = (this && this.__exportStar) || function(m, exports) {
+    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+// Re-export all service functions
+__exportStar(__nccwpck_require__(6231), exports);
+__exportStar(__nccwpck_require__(2821), exports);
+__exportStar(__nccwpck_require__(5736), exports);
+//# sourceMappingURL=index.js.map
+
+/***/ }),
+
+/***/ 3747:
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+/**
+ * State management types for the Foundry Toolchain
+ */
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.State = void 0;
+/**
+ * Enum for the cache primary key and result key.
+ */
+var State;
+(function (State) {
+    State["CachePrimaryKey"] = "CACHE_KEY";
+    State["CacheMatchedKey"] = "CACHE_RESULT";
+    State["GasSnapshotKey"] = "GAS_SNAPSHOT";
+})(State || (exports.State = State = {}));
+//# sourceMappingURL=state.js.map
+
+/***/ }),
+
+/***/ 8479:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || (function () {
+    var ownKeys = function(o) {
+        ownKeys = Object.getOwnPropertyNames || function (o) {
+            var ar = [];
+            for (var k in o) if (Object.prototype.hasOwnProperty.call(o, k)) ar[ar.length] = k;
+            return ar;
+        };
+        return ownKeys(o);
+    };
+    return function (mod) {
+        if (mod && mod.__esModule) return mod;
+        var result = {};
+        if (mod != null) for (var k = ownKeys(mod), i = 0; i < k.length; i++) if (k[i] !== "default") __createBinding(result, mod, k[i]);
+        __setModuleDefault(result, mod);
+        return result;
+    };
+})();
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.ensureDirectoryExists = ensureDirectoryExists;
+exports.readJsonFile = readJsonFile;
+exports.writeJsonFile = writeJsonFile;
+exports.readTextFile = readTextFile;
+exports.writeTextFile = writeTextFile;
+exports.fileExists = fileExists;
+const fs = __importStar(__nccwpck_require__(9896));
+const path = __importStar(__nccwpck_require__(6928));
+const core = __importStar(__nccwpck_require__(7484));
+/**
+ * Ensures that a directory exists, creating it if necessary
+ * @param dirPath The path to the directory to ensure exists
+ * @returns True if the directory exists or was created, false otherwise
+ */
+function ensureDirectoryExists(dirPath) {
+    try {
+        if (fs.existsSync(dirPath)) {
+            return true;
+        }
+        fs.mkdirSync(dirPath, { recursive: true });
+        return true;
+    }
+    catch (error) {
+        core.warning(`Failed to create directory ${dirPath}: ${error instanceof Error ? error.message : String(error)}`);
+        return false;
+    }
+}
+/**
+ * Reads a JSON file and parses its contents
+ * @param filePath The path to the JSON file to read
+ * @returns The parsed JSON object or undefined if the file does not exist or is invalid
+ */
+function readJsonFile(filePath) {
+    try {
+        if (!fs.existsSync(filePath)) {
+            return undefined;
+        }
+        const fileContent = fs.readFileSync(filePath, 'utf8');
+        return JSON.parse(fileContent);
+    }
+    catch (error) {
+        core.warning(`Failed to read JSON file ${filePath}: ${error instanceof Error ? error.message : String(error)}`);
+        return undefined;
+    }
+}
+/**
+ * Writes a JSON object to a file
+ * @param filePath The path to the file to write
+ * @param data The data to write to the file
+ * @returns True if the file was written successfully, false otherwise
+ */
+function writeJsonFile(filePath, data) {
+    try {
+        ensureDirectoryExists(path.dirname(filePath));
+        fs.writeFileSync(filePath, JSON.stringify(data, null, 2), 'utf8');
+        return true;
+    }
+    catch (error) {
+        core.warning(`Failed to write JSON file ${filePath}: ${error instanceof Error ? error.message : String(error)}`);
+        return false;
+    }
+}
+/**
+ * Reads a text file and returns its contents
+ * @param filePath The path to the text file to read
+ * @returns The contents of the file or undefined if the file does not exist or cannot be read
+ */
+function readTextFile(filePath) {
+    try {
+        if (!fs.existsSync(filePath)) {
+            return undefined;
+        }
+        return fs.readFileSync(filePath, 'utf8');
+    }
+    catch (error) {
+        core.warning(`Failed to read text file ${filePath}: ${error instanceof Error ? error.message : String(error)}`);
+        return undefined;
+    }
+}
+/**
+ * Writes text to a file
+ * @param filePath The path to the file to write
+ * @param content The text content to write to the file
+ * @returns True if the file was written successfully, false otherwise
+ */
+function writeTextFile(filePath, content) {
+    try {
+        ensureDirectoryExists(path.dirname(filePath));
+        fs.writeFileSync(filePath, content, 'utf8');
+        return true;
+    }
+    catch (error) {
+        core.warning(`Failed to write text file ${filePath}: ${error instanceof Error ? error.message : String(error)}`);
+        return false;
+    }
+}
+/**
+ * Checks if a file exists
+ * @param filePath The path to the file to check
+ * @returns True if the file exists, false otherwise
+ */
+function fileExists(filePath) {
+    return fs.existsSync(filePath);
+}
+//# sourceMappingURL=fs.js.map
+
+/***/ }),
+
+/***/ 9803:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || (function () {
+    var ownKeys = function(o) {
+        ownKeys = Object.getOwnPropertyNames || function (o) {
+            var ar = [];
+            for (var k in o) if (Object.prototype.hasOwnProperty.call(o, k)) ar[ar.length] = k;
+            return ar;
+        };
+        return ownKeys(o);
+    };
+    return function (mod) {
+        if (mod && mod.__esModule) return mod;
+        var result = {};
+        if (mod != null) for (var k = ownKeys(mod), i = 0; i < k.length; i++) if (k[i] !== "default") __createBinding(result, mod, k[i]);
+        __setModuleDefault(result, mod);
+        return result;
+    };
+})();
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.getGitHubContext = getGitHubContext;
+exports.getWorkflowRunIdentifier = getWorkflowRunIdentifier;
+exports.getGitHubToken = getGitHubToken;
+exports.createOctokitClient = createOctokitClient;
+exports.isPullRequest = isPullRequest;
+exports.getPullRequestNumber = getPullRequestNumber;
+const core = __importStar(__nccwpck_require__(7484));
+const github = __importStar(__nccwpck_require__(3228));
+/**
+ * Gets the current GitHub context information
+ * @returns Object containing GitHub context information
+ */
+function getGitHubContext() {
+    const { repo, ref, sha } = github.context;
+    const { owner, repo: repoName } = repo;
+    return {
+        repo: repoName,
+        owner,
+        sha,
+        ref,
+        workflow: github.context.workflow,
+        runId: github.context.runId,
+        runNumber: github.context.runNumber
+    };
+}
+/**
+ * Creates a unique identifier for the current GitHub workflow run
+ * @returns A string identifier for the current workflow run
+ */
+function getWorkflowRunIdentifier() {
+    const { owner, repo, runId } = getGitHubContext();
+    return `${owner}/${repo}/${runId}`;
+}
+/**
+ * Gets the GitHub token from the environment
+ * @returns The GitHub token or undefined if not available
+ */
+function getGitHubToken() {
+    return core.getInput('github-token') || process.env.GITHUB_TOKEN;
+}
+/**
+ * Creates an Octokit client for GitHub API operations
+ * @param token The GitHub token to use for authentication
+ * @returns An authenticated Octokit client or undefined if no token is available
+ */
+function createOctokitClient(token) {
+    const authToken = token || getGitHubToken();
+    if (!authToken) {
+        core.warning('No GitHub token available, some features may be limited');
+        return undefined;
+    }
+    return github.getOctokit(authToken);
+}
+/**
+ * Determines if the current workflow is running on a pull request
+ * @returns True if running on a pull request, false otherwise
+ */
+function isPullRequest() {
+    return github.context.payload.pull_request !== undefined;
+}
+/**
+ * Gets the pull request number if the current workflow is running on a pull request
+ * @returns The pull request number or undefined if not running on a pull request
+ */
+function getPullRequestNumber() {
+    if (!isPullRequest()) {
+        return undefined;
+    }
+    return github.context.payload.pull_request?.number;
+}
+//# sourceMappingURL=github.js.map
+
+/***/ }),
+
+/***/ 2359:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || (function () {
+    var ownKeys = function(o) {
+        ownKeys = Object.getOwnPropertyNames || function (o) {
+            var ar = [];
+            for (var k in o) if (Object.prototype.hasOwnProperty.call(o, k)) ar[ar.length] = k;
+            return ar;
+        };
+        return ownKeys(o);
+    };
+    return function (mod) {
+        if (mod && mod.__esModule) return mod;
+        var result = {};
+        if (mod != null) for (var k = ownKeys(mod), i = 0; i < k.length; i++) if (k[i] !== "default") __createBinding(result, mod, k[i]);
+        __setModuleDefault(result, mod);
+        return result;
+    };
+})();
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.normalizeVersionName = normalizeVersionName;
+exports.mapArch = mapArch;
+exports.getDownloadObject = getDownloadObject;
+const os = __importStar(__nccwpck_require__(857));
+/**
+ * Normalizes the version name by replacing nightly versions with a consistent format
+ * @param version The version string to normalize
+ * @returns The normalized version string
+ */
+function normalizeVersionName(version) {
+    return version.replace(/^nightly-[0-9a-f]{40}$/, 'nightly');
+}
+/**
+ * Maps architecture names to their corresponding values used in download URLs
+ * @param arch The architecture name to map
+ * @returns The mapped architecture name
+ */
+function mapArch(arch) {
+    const mappings = {
+        x32: '386',
+        x64: 'amd64',
+    };
+    return mappings[arch] || arch;
+}
+/**
+ * Creates a download object with the URL and binary path for the specified version
+ * @param version The version of Foundry to download
+ * @returns An object containing the download URL and binary path
+ */
+function getDownloadObject(version) {
+    const platform = os.platform();
+    const arch = os.arch();
+    const mappedArch = mapArch(arch);
+    const normalizedVersion = normalizeVersionName(version);
+    const filename = `foundry_${normalizedVersion}_${platform}_${mappedArch}`;
+    const extension = platform === 'win32' ? 'zip' : 'tar.gz';
+    const url = `https://github.com/foundry-rs/foundry/releases/download/${version}/${filename}.${extension}`;
+    return {
+        url,
+        binPath: '.',
+        version,
+        platform,
+        architecture: mappedArch
+    };
+}
+//# sourceMappingURL=platform.js.map
+
+/***/ }),
+
 /***/ 5116:
 /***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
 
@@ -44810,7 +46064,7 @@ exports.colors = [6, 2, 3, 4, 5, 1];
 try {
 	// Optional dependency (as in, doesn't need to be installed, NOT like optionalDependencies in package.json)
 	// eslint-disable-next-line import/no-extraneous-dependencies
-	const supportsColor = __nccwpck_require__(75);
+	const supportsColor = __nccwpck_require__(1450);
 
 	if (supportsColor && (supportsColor.stderr || supportsColor).level >= 2) {
 		exports.colors = [
@@ -47700,6 +48954,22 @@ class XmlNode{
 
 
 module.exports = XmlNode;
+
+/***/ }),
+
+/***/ 3813:
+/***/ ((module) => {
+
+"use strict";
+
+
+module.exports = (flag, argv = process.argv) => {
+	const prefix = flag.startsWith('-') ? '' : (flag.length === 1 ? '-' : '--');
+	const position = argv.indexOf(prefix + flag);
+	const terminatorPosition = argv.indexOf('--');
+	return position !== -1 && (terminatorPosition === -1 || position < terminatorPosition);
+};
+
 
 /***/ }),
 
@@ -51102,6 +52372,149 @@ function trimZeros(numStr){
     return numStr;
 }
 module.exports = toNumber
+
+
+/***/ }),
+
+/***/ 1450:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+"use strict";
+
+const os = __nccwpck_require__(857);
+const tty = __nccwpck_require__(2018);
+const hasFlag = __nccwpck_require__(3813);
+
+const {env} = process;
+
+let forceColor;
+if (hasFlag('no-color') ||
+	hasFlag('no-colors') ||
+	hasFlag('color=false') ||
+	hasFlag('color=never')) {
+	forceColor = 0;
+} else if (hasFlag('color') ||
+	hasFlag('colors') ||
+	hasFlag('color=true') ||
+	hasFlag('color=always')) {
+	forceColor = 1;
+}
+
+if ('FORCE_COLOR' in env) {
+	if (env.FORCE_COLOR === 'true') {
+		forceColor = 1;
+	} else if (env.FORCE_COLOR === 'false') {
+		forceColor = 0;
+	} else {
+		forceColor = env.FORCE_COLOR.length === 0 ? 1 : Math.min(parseInt(env.FORCE_COLOR, 10), 3);
+	}
+}
+
+function translateLevel(level) {
+	if (level === 0) {
+		return false;
+	}
+
+	return {
+		level,
+		hasBasic: true,
+		has256: level >= 2,
+		has16m: level >= 3
+	};
+}
+
+function supportsColor(haveStream, streamIsTTY) {
+	if (forceColor === 0) {
+		return 0;
+	}
+
+	if (hasFlag('color=16m') ||
+		hasFlag('color=full') ||
+		hasFlag('color=truecolor')) {
+		return 3;
+	}
+
+	if (hasFlag('color=256')) {
+		return 2;
+	}
+
+	if (haveStream && !streamIsTTY && forceColor === undefined) {
+		return 0;
+	}
+
+	const min = forceColor || 0;
+
+	if (env.TERM === 'dumb') {
+		return min;
+	}
+
+	if (process.platform === 'win32') {
+		// Windows 10 build 10586 is the first Windows release that supports 256 colors.
+		// Windows 10 build 14931 is the first release that supports 16m/TrueColor.
+		const osRelease = os.release().split('.');
+		if (
+			Number(osRelease[0]) >= 10 &&
+			Number(osRelease[2]) >= 10586
+		) {
+			return Number(osRelease[2]) >= 14931 ? 3 : 2;
+		}
+
+		return 1;
+	}
+
+	if ('CI' in env) {
+		if (['TRAVIS', 'CIRCLECI', 'APPVEYOR', 'GITLAB_CI', 'GITHUB_ACTIONS', 'BUILDKITE'].some(sign => sign in env) || env.CI_NAME === 'codeship') {
+			return 1;
+		}
+
+		return min;
+	}
+
+	if ('TEAMCITY_VERSION' in env) {
+		return /^(9\.(0*[1-9]\d*)\.|\d{2,}\.)/.test(env.TEAMCITY_VERSION) ? 1 : 0;
+	}
+
+	if (env.COLORTERM === 'truecolor') {
+		return 3;
+	}
+
+	if ('TERM_PROGRAM' in env) {
+		const version = parseInt((env.TERM_PROGRAM_VERSION || '').split('.')[0], 10);
+
+		switch (env.TERM_PROGRAM) {
+			case 'iTerm.app':
+				return version >= 3 ? 3 : 2;
+			case 'Apple_Terminal':
+				return 2;
+			// No default
+		}
+	}
+
+	if (/-256(color)?$/i.test(env.TERM)) {
+		return 2;
+	}
+
+	if (/^screen|^xterm|^vt100|^vt220|^rxvt|color|ansi|cygwin|linux/i.test(env.TERM)) {
+		return 1;
+	}
+
+	if ('COLORTERM' in env) {
+		return 1;
+	}
+
+	return min;
+}
+
+function getSupportLevel(stream) {
+	const level = supportsColor(stream, stream && stream.isTTY);
+	return translateLevel(level);
+}
+
+module.exports = {
+	supportsColor: getSupportLevel,
+	stdout: translateLevel(supportsColor(true, tty.isatty(1))),
+	stderr: translateLevel(supportsColor(true, tty.isatty(2)))
+};
 
 
 /***/ }),
@@ -75224,233 +76637,6 @@ function wrappy (fn, cb) {
 
 /***/ }),
 
-/***/ 2351:
-/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
-
-const core = __nccwpck_require__(7484);
-const cache = __nccwpck_require__(5116);
-const github = __nccwpck_require__(3228);
-const fs = __nccwpck_require__(9896);
-const os = __nccwpck_require__(857);
-const path = __nccwpck_require__(6928);
-const { State } = __nccwpck_require__(9992);
-
-// Define constants for cache paths and prefix
-const HOME = os.homedir();
-const PLATFORM = os.platform();
-const CACHE_PATHS = [path.join(HOME, ".foundry/cache/rpc")];
-const CACHE_PREFIX = `${PLATFORM}-foundry-chain-fork-`;
-
-/**
- * Constructs the primary key for the cache using a custom key input.
- * @param {string} customKeyInput - The custom part of the key provided by the user.
- * @returns {string} The complete primary key for the cache.
- */
-function getPrimaryKey(customKeyInput) {
-  if (!customKeyInput) {
-    return `${CACHE_PREFIX}${github.context.sha}`;
-  }
-  return `${CACHE_PREFIX}${customKeyInput.trim()}`;
-}
-
-/**
- * Constructs an array of restore keys based on user input and a default prefix.
- * @param {string} customRestoreKeysInput - Newline-separated string of custom restore keys.
- * @returns {string[]} An array of restore keys for the cache.
- */
-function getRestoreKeys(customRestoreKeysInput) {
-  const defaultRestoreKeys = [CACHE_PREFIX];
-  if (!customRestoreKeysInput) {
-    return defaultRestoreKeys;
-  }
-  const restoreKeys = customRestoreKeysInput
-    .split(/[\r\n]/)
-    .map((input) => input.trim())
-    .filter((input) => input !== "")
-    .map((input) => `${CACHE_PREFIX}${input}`);
-  return [...restoreKeys, ...defaultRestoreKeys];
-}
-
-/**
- * Restores the RPC cache using the provided keys.
- */
-async function restoreRPCCache() {
-  const customKeyInput = core.getInput("cache-key");
-  const primaryKey = getPrimaryKey(customKeyInput);
-  core.saveState(State.CachePrimaryKey, primaryKey);
-
-  const customRestoreKeysInput = core.getInput("cache-restore-keys");
-  const restoreKeys = getRestoreKeys(customRestoreKeysInput);
-  const matchedKey = await cache.restoreCache(CACHE_PATHS, primaryKey, restoreKeys);
-
-  if (!matchedKey) {
-    core.info("Cache not found");
-    return;
-  }
-
-  core.saveState(State.CacheMatchedKey, matchedKey);
-  core.info(`Cache restored from key: ${matchedKey}`);
-}
-
-/**
- * Saves the RPC cache using the primary key saved in the state.
- * If the cache was already saved with the primary key, it will not save it again.
- */
-async function saveCache() {
-  const primaryKey = core.getState(State.CachePrimaryKey);
-  const matchedKey = core.getState(State.CacheMatchedKey);
-
-  // If the cache path does not exist, do not save the cache
-  if (!fs.existsSync(CACHE_PATHS[0])) {
-    core.info(`Cache path does not exist, not saving cache: ${CACHE_PATHS[0]}`);
-    return;
-  }
-
-  // If the primary key is not generated, do not save the cache
-  if (!primaryKey) {
-    core.info("Primary key was not generated. Please check the log messages above for more errors or information");
-    return;
-  }
-
-  // If the primary key and the matched key are the same, this means the cache was already saved
-  if (primaryKey === matchedKey) {
-    core.info(`Cache hit occurred on the primary key ${primaryKey}, not saving cache.`);
-    return;
-  }
-
-  const cacheId = await cache.saveCache(CACHE_PATHS, primaryKey);
-
-  // If the cacheId is -1, the saving failed with an error message log. No additional logging is needed.
-  if (cacheId === -1) {
-    return;
-  }
-
-  core.info(`Cache saved with the key: ${primaryKey}`);
-}
-
-module.exports = {
-  restoreRPCCache,
-  saveCache,
-};
-
-
-/***/ }),
-
-/***/ 9992:
-/***/ ((__unused_webpack_module, __webpack_exports__, __nccwpck_require__) => {
-
-"use strict";
-__nccwpck_require__.r(__webpack_exports__);
-/* harmony export */ __nccwpck_require__.d(__webpack_exports__, {
-/* harmony export */   State: () => (/* binding */ State)
-/* harmony export */ });
-// Enum for the cache primary key and result key.
-const State = {
-  CachePrimaryKey: "CACHE_KEY",
-  CacheMatchedKey: "CACHE_RESULT",
-};
-
-
-/***/ }),
-
-/***/ 5105:
-/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
-
-const core = __nccwpck_require__(7484);
-const toolCache = __nccwpck_require__(3472);
-const path = __nccwpck_require__(6928);
-
-const { restoreRPCCache } = __nccwpck_require__(2351);
-const { getDownloadObject } = __nccwpck_require__(5804);
-
-async function main() {
-  try {
-    // Get version input
-    const version = core.getInput("version");
-
-    // Download the archive containing the binaries
-    const download = getDownloadObject(version);
-    core.info(`Downloading Foundry '${version}' from: ${download.url}`);
-    const pathToArchive = await toolCache.downloadTool(download.url);
-
-    // Extract the archive onto host runner
-    core.debug(`Extracting ${pathToArchive}`);
-    const extract = download.url.endsWith(".zip") ? toolCache.extractZip : toolCache.extractTar;
-    const pathToCLI = await extract(pathToArchive);
-
-    // Expose the tool
-    core.addPath(path.join(pathToCLI, download.binPath));
-
-    // Get cache input
-    const cache = core.getBooleanInput("cache");
-
-    // If cache input is false, skip restoring cache
-    if (!cache) {
-      core.info("Cache not requested, not restoring cache");
-      return;
-    }
-
-    // Restore the RPC cache
-    await restoreRPCCache();
-  } catch (err) {
-    core.setFailed(err);
-  }
-}
-
-module.exports = main;
-
-if (require.main === require.cache[eval('__filename')]) {
-  main();
-}
-
-
-/***/ }),
-
-/***/ 5804:
-/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
-
-const os = __nccwpck_require__(857);
-
-function normalizeVersionName(version) {
-  return version.replace(/^nightly-[0-9a-f]{40}$/, "nightly");
-}
-
-function mapArch(arch) {
-  const mappings = {
-    x32: "386",
-    x64: "amd64",
-  };
-
-  return mappings[arch] || arch;
-}
-
-function getDownloadObject(version) {
-  const platform = os.platform();
-  const filename = `foundry_${normalizeVersionName(version)}_${platform}_${mapArch(os.arch())}`;
-  const extension = platform === "win32" ? "zip" : "tar.gz";
-  const url = `https://github.com/foundry-rs/foundry/releases/download/${version}/${filename}.${extension}`;
-
-  return {
-    url,
-    binPath: ".",
-  };
-}
-
-module.exports = {
-  getDownloadObject,
-};
-
-
-/***/ }),
-
-/***/ 75:
-/***/ ((module) => {
-
-module.exports = eval("require")("supports-color");
-
-
-/***/ }),
-
 /***/ 2613:
 /***/ ((module) => {
 
@@ -86653,34 +87839,6 @@ module.exports = /*#__PURE__*/JSON.parse('{"name":"@actions/cache","version":"4.
 /******/ 	}
 /******/ 	
 /************************************************************************/
-/******/ 	/* webpack/runtime/define property getters */
-/******/ 	(() => {
-/******/ 		// define getter functions for harmony exports
-/******/ 		__nccwpck_require__.d = (exports, definition) => {
-/******/ 			for(var key in definition) {
-/******/ 				if(__nccwpck_require__.o(definition, key) && !__nccwpck_require__.o(exports, key)) {
-/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
-/******/ 				}
-/******/ 			}
-/******/ 		};
-/******/ 	})();
-/******/ 	
-/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
-/******/ 	(() => {
-/******/ 		__nccwpck_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
-/******/ 	})();
-/******/ 	
-/******/ 	/* webpack/runtime/make namespace object */
-/******/ 	(() => {
-/******/ 		// define __esModule on exports
-/******/ 		__nccwpck_require__.r = (exports) => {
-/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
-/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
-/******/ 			}
-/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
-/******/ 		};
-/******/ 	})();
-/******/ 	
 /******/ 	/* webpack/runtime/compat */
 /******/ 	
 /******/ 	if (typeof __nccwpck_require__ !== 'undefined') __nccwpck_require__.ab = __dirname + "/";
@@ -86690,7 +87848,7 @@ module.exports = /*#__PURE__*/JSON.parse('{"name":"@actions/cache","version":"4.
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module is referenced by other modules so it can't be inlined
-/******/ 	var __webpack_exports__ = __nccwpck_require__(5105);
+/******/ 	var __webpack_exports__ = __nccwpck_require__(1188);
 /******/ 	module.exports = __webpack_exports__;
 /******/ 	
 /******/ })()
