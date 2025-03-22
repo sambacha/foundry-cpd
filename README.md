@@ -1,7 +1,42 @@
-## `foundry-toolchain` Action
+## `foundry-ci` Action
 
-This GitHub Action installs [Foundry](https://github.com/foundry-rs/foundry), the blazing fast, portable and modular
-toolkit for Ethereum application development. It provides enhanced caching capabilities and gas snapshot tracking to improve your development workflow.
+> [!IMPORTANT]
+> This is a fork of the foundry-toolchain action workflow that includes:
+> - GitHub Runner for Metrics
+> - Gas Snapshot Coverage and Regression Gate
+> - no macOS/Windows Support, shits straight perf baby
+
+
+## Runner Output Example
+
+
+```console
+
+----- [1m[32m[7mPASS[27m[39m[22m test/AtmAuction.t.sol:AtmAuctionTest (0 ms) -----
+
+
+----- [1m[32m[7mPASS[27m[39m[22m test/BondAuction.t.sol:BondAuctionTest (0 ms) -----
+
+
+----- [1m[32m[7mPASS[27m[39m[22m test/Deposit.t.sol:DepositTest (0 ms) -----
+
+
+----- [1m[32m[7mPASS[27m[39m[22m test/DutchAuction.t.sol:DutchAuctionTest (0 ms) -----
+
+
+----- [1m[32m[7mPASS[27m[39m[22m test/EthStrategy.t.sol:EthStrategyGovernorTest (0 ms) -----
+
+
+----- [1m[32m[7mPASS[27m[39m[22m test/NavOptions.t.sol:NavOptionsTest (0 ms) -----
+
+
+Test Suites: 6 passed, 0 failed, 6 total
+Tests:       [1m[32m0 passed[39m[22m, [1m0 total[22m
+Time:        0 ms
+Ran all Forge test suites.
+
+```
+
 
 ### Example workflow
 
