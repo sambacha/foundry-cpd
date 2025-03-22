@@ -10,32 +10,8 @@
 ## Runner Output Example
 
 
-```console
+<img width="986" alt="forge-runner" src="https://github.com/user-attachments/assets/31ba2e7c-e26a-47c4-bb93-a8391bad3664" />
 
------ [1m[32m[7mPASS[27m[39m[22m test/AtmAuction.t.sol:AtmAuctionTest (0 ms) -----
-
-
------ [1m[32m[7mPASS[27m[39m[22m test/BondAuction.t.sol:BondAuctionTest (0 ms) -----
-
-
------ [1m[32m[7mPASS[27m[39m[22m test/Deposit.t.sol:DepositTest (0 ms) -----
-
-
------ [1m[32m[7mPASS[27m[39m[22m test/DutchAuction.t.sol:DutchAuctionTest (0 ms) -----
-
-
------ [1m[32m[7mPASS[27m[39m[22m test/EthStrategy.t.sol:EthStrategyGovernorTest (0 ms) -----
-
-
------ [1m[32m[7mPASS[27m[39m[22m test/NavOptions.t.sol:NavOptionsTest (0 ms) -----
-
-
-Test Suites: 6 passed, 0 failed, 6 total
-Tests:       [1m[32m0 passed[39m[22m, [1m0 total[22m
-Time:        0 ms
-Ran all Forge test suites.
-
-```
 
 
 ### Example workflow
